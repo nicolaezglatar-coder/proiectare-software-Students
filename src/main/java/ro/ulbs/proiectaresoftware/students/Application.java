@@ -3,36 +3,25 @@ package ro.ulbs.proiectaresoftware.students;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Application {
     public static void main(String[] args) {
-        List<Student> studenti = citesteStudenti("studenti_in.txt");
+        HashMap<Integer, Student> studenti = citesteStudenti("studenti_in.txt");
 
-        System.out.println("Studenti cititi:");
-        for (Student student : studenti) {
-            System.out.println(student);
+        citesteNote("note_anon.txt", studenti);
+
+        System.out.println("Studenti cu note:");
+
+        for (Map.Entry<Integer, Student> entry : studenti.entrySet()) {
+            System.out.println(entry.getValue());
         }
-
-        List<Student> studentiSortatiDupaNume = new ArrayList<>(studenti);
-        studentiSortatiDupaNume.sort(Comparator.comparing(Student::getNume));
-        scrieStudenti("studenti_out.txt", studentiSortatiDupaNume);
-
-        List<Student> studentiSortatiDupaFormatieSiNume = new ArrayList<>(studenti);
-        studentiSortatiDupaFormatieSiNume.sort(
-                Comparator.comparing(Student::getFormatieDeStudiu)
-                        .thenComparing(Student::getNume)
-        );
-        scrieStudenti("studenti_out_sorted.txt", studentiSortatiDupaFormatieSiNume);
-
-        System.out.println("Studentii sortati dupa nume au fost salvati in studenti_out.txt");
-        System.out.println("Studentii sortati dupa formatie si nume au fost salvati in studenti_out_sorted.txt");
     }
 
-    public static List<Student> citesteStudenti(String numeFisier) {
-        List<Student> studenti = new ArrayList<>();
+    public static HashMap<Integer, Student> citesteStudenti(String numeFisier) {
+        HashMap<Integer, Student> studenti = new HashMap<>();
 
         try {
             List<String> linii = Files.readAllLines(Path.of(numeFisier));
@@ -45,7 +34,9 @@ public class Application {
                 String nume = campuri[2];
                 String formatieDeStudiu = campuri[3];
 
-                studenti.add(new Student(numarMatricol, prenume, nume, formatieDeStudiu));
+                Student student = new Student(numarMatricol, prenume, nume, formatieDeStudiu);
+
+                studenti.put(numarMatricol, student);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,20 +45,22 @@ public class Application {
         return studenti;
     }
 
-    public static void scrieStudenti(String numeFisier, List<Student> studenti) {
-        List<String> linii = new ArrayList<>();
-
-        for (Student student : studenti) {
-            String linie = student.getNumarMatricol() + ","
-                    + student.getPrenume() + ","
-                    + student.getNume() + ","
-                    + student.getFormatieDeStudiu();
-
-            linii.add(linie);
-        }
-
+    public static void citesteNote(String numeFisier, HashMap<Integer, Student> studenti) {
         try {
-            Files.write(Path.of(numeFisier), linii);
+            List<String> linii = Files.readAllLines(Path.of(numeFisier));
+
+            for (String linie : linii) {
+                String[] campuri = linie.split(",");
+
+                int numarMatricol = Integer.parseInt(campuri[0]);
+                double nota = Double.parseDouble(campuri[1]);
+
+                Student student = studenti.get(numarMatricol);
+
+                if (student != null) {
+                    student.setNota(nota);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
