@@ -18,6 +18,15 @@ public class Application {
         for (Map.Entry<Integer, Student> entry : studenti.entrySet()) {
             System.out.println(entry.getValue());
         }
+
+        HashMap<String, Student> tineri = creeazaMapDupaPrenumeSiNume(studenti);
+
+        float notaM = gasesteNota("Bianca", "Popescu", tineri);
+        float notaN = gasesteNota("Ioan", "Popa", tineri);
+
+        System.out.println();
+        System.out.println("Nota Bianca Popescu = " + notaM);
+        System.out.println("Nota Ioan Popa = " + notaN);
     }
 
     public static HashMap<Integer, Student> citesteStudenti(String numeFisier) {
@@ -35,7 +44,6 @@ public class Application {
                 String formatieDeStudiu = campuri[3];
 
                 Student student = new Student(numarMatricol, prenume, nume, formatieDeStudiu);
-
                 studenti.put(numarMatricol, student);
             }
         } catch (IOException e) {
@@ -64,5 +72,27 @@ public class Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static HashMap<String, Student> creeazaMapDupaPrenumeSiNume(HashMap<Integer, Student> studenti) {
+        HashMap<String, Student> tineri = new HashMap<>();
+
+        for (Student student : studenti.values()) {
+            String cheie = student.getPrenume() + " " + student.getNume();
+            tineri.put(cheie, student);
+        }
+
+        return tineri;
+    }
+
+    public static float gasesteNota(String prenume, String nume, HashMap<String, Student> tineri) {
+        String cheie = prenume + " " + nume;
+        Student student = tineri.get(cheie);
+
+        if (student == null) {
+            return 0.0f;
+        }
+
+        return (float) student.getNota();
     }
 }
