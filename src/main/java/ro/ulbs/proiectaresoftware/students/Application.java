@@ -16,11 +16,19 @@ public class Application {
             System.out.println(student);
         }
 
-        studenti.sort(Comparator.comparing(Student::getNume));
+        List<Student> studentiSortatiDupaNume = new ArrayList<>(studenti);
+        studentiSortatiDupaNume.sort(Comparator.comparing(Student::getNume));
+        scrieStudenti("studenti_out.txt", studentiSortatiDupaNume);
 
-        scrieStudenti("studenti_out.txt", studenti);
+        List<Student> studentiSortatiDupaFormatieSiNume = new ArrayList<>(studenti);
+        studentiSortatiDupaFormatieSiNume.sort(
+                Comparator.comparing(Student::getFormatieDeStudiu)
+                        .thenComparing(Student::getNume)
+        );
+        scrieStudenti("studenti_out_sorted.txt", studentiSortatiDupaFormatieSiNume);
 
         System.out.println("Studentii sortati dupa nume au fost salvati in studenti_out.txt");
+        System.out.println("Studentii sortati dupa formatie si nume au fost salvati in studenti_out_sorted.txt");
     }
 
     public static List<Student> citesteStudenti(String numeFisier) {
