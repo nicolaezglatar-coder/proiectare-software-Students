@@ -1,20 +1,44 @@
 package ro.ulbs.proiectaresoftware.students;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Application {
     public static void main(String[] args) {
-        Student s1 = new Student(112, "Ioan", "Popa", "TI21/1");
-        Student s2 = new Student(112, "Maria", "Oprea", "TI21/1");
-        Student s3 = new Student(120, "Alis", "Popa", "TI21/2");
-        Student s4 = new Student(122, "Mihai", "Vecerdea", "TI22/1");
-        Student s5 = new Student(122, "Eugen", "Uritescu", "TI22/2");
+        List<Student> studenti = new ArrayList<>();
 
-        System.out.println(String.format("%-15s %-15s %-15s %-15s",
-                "Nr. matricol", "Prenume", "Nume", "Formatie"));
+        studenti.add(new Student(112, "Ioan", "Popa", "TI21/1"));
+        studenti.add(new Student(112, "Maria", "Oprea", "TI21/1"));
+        studenti.add(new Student(120, "Alis", "Popa", "TI21/2"));
+        studenti.add(new Student(122, "Mihai", "Vecerdea", "TI22/1"));
+        studenti.add(new Student(122, "Eugen", "Uritescu", "TI22/2"));
 
-        System.out.println(s1);
-        System.out.println(s2);
-        System.out.println(s3);
-        System.out.println(s4);
-        System.out.println(s5);
+        System.out.println("Lista studenti:");
+
+        for (Student student : studenti) {
+            System.out.println(student);
+        }
+
+        Student studentCautat1 = new Student(120, "Alis", "Popa", "TI21/2");
+        Student studentCautat2 = new Student(112, "Maria", "Popa", "TI21/1");
+
+        System.out.println();
+        System.out.println("Exista studentul Alis Popa TI21/2? "
+                + existaStudent(studenti, studentCautat1));
+
+        System.out.println("Exista studentul Maria Popa TI21/1? "
+                + existaStudent(studenti, studentCautat2));
+    }
+
+    public static boolean existaStudent(List<Student> studenti, Student studentCautat) {
+        for (Student student : studenti) {
+            if (student.getPrenume().equals(studentCautat.getPrenume())
+                    && student.getNume().equals(studentCautat.getNume())
+                    && student.getFormatieDeStudiu().equals(studentCautat.getFormatieDeStudiu())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
