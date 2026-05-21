@@ -1,7 +1,9 @@
 package ro.ulbs.proiectaresoftware.students;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Application {
     public static void main(String[] args) {
@@ -19,26 +21,20 @@ public class Application {
             System.out.println(student);
         }
 
+        Set<Student> studentiSet = new HashSet<>(studenti);
+
         Student studentCautat1 = new Student(120, "Alis", "Popa", "TI21/2");
         Student studentCautat2 = new Student(112, "Maria", "Popa", "TI21/1");
 
         System.out.println();
         System.out.println("Exista studentul Alis Popa TI21/2? "
-                + existaStudent(studenti, studentCautat1));
+                + existaStudent(studentiSet, studentCautat1));
 
         System.out.println("Exista studentul Maria Popa TI21/1? "
-                + existaStudent(studenti, studentCautat2));
+                + existaStudent(studentiSet, studentCautat2));
     }
 
-    public static boolean existaStudent(List<Student> studenti, Student studentCautat) {
-        for (Student student : studenti) {
-            if (student.getPrenume().equals(studentCautat.getPrenume())
-                    && student.getNume().equals(studentCautat.getNume())
-                    && student.getFormatieDeStudiu().equals(studentCautat.getFormatieDeStudiu())) {
-                return true;
-            }
-        }
-
-        return false;
+    public static boolean existaStudent(Set<Student> studentiSet, Student studentCautat) {
+        return studentiSet.contains(studentCautat);
     }
 }
