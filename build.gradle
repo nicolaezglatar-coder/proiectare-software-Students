@@ -20,7 +20,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'ro.ulbs.proiectaresoftware.students.Application'
+    mainClass = 'ro.ulbs.proiectaresoftware.students.AplicatieCuStrategy'
 }
 
 test {
