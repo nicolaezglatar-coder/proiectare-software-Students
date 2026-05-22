@@ -17,6 +17,14 @@ public class Student {
         this.nota = 0.0;
     }
 
+    public Student(int numarMatricol, String prenume, String nume, String formatieDeStudiu, double nota) {
+        this.numarMatricol = numarMatricol;
+        this.prenume = prenume;
+        this.nume = nume;
+        this.formatieDeStudiu = formatieDeStudiu;
+        this.nota = nota;
+    }
+
     public int getNumarMatricol() {
         return numarMatricol;
     }
